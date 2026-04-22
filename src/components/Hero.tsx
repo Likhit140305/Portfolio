@@ -1,23 +1,26 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, Variants } from "framer-motion";
 import { useRef } from "react";
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   visible: {
     transition: { staggerChildren: 0.12, delayChildren: 0.1 },
   },
 };
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 40, filter: "blur(8px)" },
-  visible: {
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
-  },
+    transition: {
+      duration: 0.6,
+      delay: 0.2 + i * 0.05,
+      ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+    },
+  }),
 };
 
 const words = ["scalable", "intelligent", "full-stack"];
@@ -128,12 +131,12 @@ export default function Hero() {
                 boxShadow: "0 0 30px rgba(99,102,241,0.35), 0 4px 24px rgba(0,0,0,0.4)",
               }}
               onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.boxShadow =
-                  "0 0 50px rgba(99,102,241,0.55), 0 4px 30px rgba(0,0,0,0.5)")
+              ((e.currentTarget as HTMLElement).style.boxShadow =
+                "0 0 50px rgba(99,102,241,0.55), 0 4px 30px rgba(0,0,0,0.5)")
               }
               onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.boxShadow =
-                  "0 0 30px rgba(99,102,241,0.35), 0 4px 24px rgba(0,0,0,0.4)")
+              ((e.currentTarget as HTMLElement).style.boxShadow =
+                "0 0 30px rgba(99,102,241,0.35), 0 4px 24px rgba(0,0,0,0.4)")
               }
             >
               View My Work
