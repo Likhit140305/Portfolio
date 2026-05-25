@@ -6,30 +6,28 @@ import { useRef } from "react";
 const containerVariants: Variants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
   },
 };
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 30 },
   visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
-      delay: 0.2 + i * 0.05,
-      ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+      duration: 0.8,
+      delay: i * 0.1,
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
     },
   }),
 };
 
-const words = ["scalable", "intelligent", "full-stack"];
-
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
     <section
@@ -37,47 +35,15 @@ export default function Hero() {
       ref={ref}
       className="relative min-h-screen flex flex-col justify-center px-6 md:px-16 lg:px-24 overflow-hidden"
     >
-      {/* Grid background */}
-      <div className="absolute inset-0 grid-bg opacity-100 pointer-events-none" />
-
-      {/* Deep radial glow — left */}
+      {/* Subtle Background Glows */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 70% 60% at 10% 55%, rgba(99,102,241,0.1) 0%, transparent 65%)",
+            "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.1) 0%, transparent 70%)",
         }}
       />
-
-      {/* Deep radial glow — right accent */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 50% 40% at 80% 30%, rgba(139,92,246,0.06) 0%, transparent 60%)",
-        }}
-      />
-
-      {/* Animated orbs */}
-      <motion.div
-        animate={{ y: [0, -24, 0], x: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-        className="absolute top-[20%] right-[15%] w-72 h-72 rounded-full pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%)",
-          filter: "blur(40px)",
-        }}
-      />
-      <motion.div
-        animate={{ y: [0, 16, 0] }}
-        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-[15%] right-[30%] w-48 h-48 rounded-full pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 70%)",
-          filter: "blur(30px)",
-        }}
-      />
-
+      
       <motion.div
         style={{ y, opacity }}
         className="max-w-6xl mx-auto w-full relative z-10"
@@ -89,59 +55,46 @@ export default function Hero() {
           className="flex flex-col"
         >
           {/* Status badge */}
-          <motion.div variants={fadeUp} className="flex items-center gap-3 mb-16">
+          <motion.div variants={fadeUp} className="flex items-center gap-3 mb-10 md:mb-12">
             <span className="glow-dot" />
-            <span className="text-xs tracking-[0.22em] text-white/35 uppercase font-medium">
-              Open to opportunities
+            <span className="text-xs tracking-[0.25em] text-white/40 uppercase font-medium">
+              Software Engineer
             </span>
           </motion.div>
 
           {/* Name */}
           <motion.h1
             variants={fadeUp}
-            className="text-[clamp(3.5rem,10vw,9rem)] font-bold leading-[0.92] tracking-tight mb-8"
+            className="font-clash text-[clamp(4rem,12vw,10rem)] font-semibold leading-[0.9] tracking-[-0.02em] mb-8"
           >
-            <span className="gradient-text">Likhit</span>
+            <span className="text-white">Likhit</span>
             <br />
-            <span className="text-white">Hegde.</span>
+            <span className="text-white/40">Hegde.</span>
           </motion.h1>
 
           {/* Tagline */}
           <motion.p
             variants={fadeUp}
-            className="text-base md:text-lg text-white/40 font-light leading-[1.7] max-w-lg mb-8 md:text-xl"
-            style={{ letterSpacing: "0.005em" }}
+            className="text-lg md:text-xl text-white/50 font-light leading-[1.6] max-w-xl mb-12"
           >
             Building{" "}
-            <span className="text-white/70 font-medium">scalable systems</span>,{" "}
-            <span className="text-white/70 font-medium">intelligent simulations</span>,
+            <span className="text-white/90 font-medium">scalable systems</span>,{" "}
+            <span className="text-white/90 font-medium">intelligent simulations</span>,
             <br className="hidden md:block" />
-            and <span className="text-white/70 font-medium">full-stack applications</span>.
+            and <span className="text-white/90 font-medium">full-stack applications</span>.
           </motion.p>
 
           {/* CTA buttons */}
-          <motion.div variants={fadeUp} className="flex items-center gap-4 flex-wrap">
+          <motion.div variants={fadeUp} className="flex items-center gap-5 flex-wrap">
             <motion.a
               href="#projects"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-semibold text-white transition-all duration-300"
-              style={{
-                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                boxShadow: "0 0 30px rgba(99,102,241,0.35), 0 4px 24px rgba(0,0,0,0.4)",
-              }}
-              onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.boxShadow =
-                "0 0 50px rgba(99,102,241,0.55), 0 4px 30px rgba(0,0,0,0.5)")
-              }
-              onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.boxShadow =
-                "0 0 30px rgba(99,102,241,0.35), 0 4px 24px rgba(0,0,0,0.4)")
-              }
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="group inline-flex items-center gap-3 px-8 py-4 rounded-full text-[15px] font-medium text-black bg-white transition-all duration-300 hover:bg-white/90"
             >
-              View My Work
+              View Projects
               <svg
-                className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
+                className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -153,29 +106,11 @@ export default function Hero() {
             <motion.a
               href="#contact"
               whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-medium text-white/55 hover:text-white border border-white/10 hover:border-white/20 backdrop-blur-sm transition-all duration-300"
-              style={{ background: "rgba(255,255,255,0.02)" }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-[15px] font-medium text-white/60 hover:text-white transition-all duration-300"
             >
               Get in Touch
             </motion.a>
-          </motion.div>
-
-          {/* Tech quick-stack */}
-          <motion.div
-            variants={fadeUp}
-            className="flex items-center gap-4 mt-16 flex-wrap"
-          >
-            <span className="text-xs text-white/20 tracking-widest uppercase">Stack</span>
-            <div className="w-10 h-px bg-white/10" />
-            {["Go", "React", "Next.js", "PostgreSQL", "Docker", "Redis"].map((tech) => (
-              <span
-                key={tech}
-                className="text-xs text-white/30 font-mono tracking-wide hover:text-white/60 transition-colors duration-200 cursor-default"
-              >
-                {tech}
-              </span>
-            ))}
           </motion.div>
         </motion.div>
       </motion.div>
@@ -184,15 +119,14 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1.2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+        transition={{ delay: 1.5, duration: 1 }}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
       >
-        <span className="text-[10px] text-white/18 tracking-[0.3em] uppercase">Scroll</span>
         <motion.div
-          animate={{ scaleY: [0.5, 1, 0.5], opacity: [0.3, 0.7, 0.3] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          className="w-px h-10 origin-top"
-          style={{ background: "linear-gradient(180deg, rgba(99,102,241,0.6), transparent)" }}
+          animate={{ scaleY: [0.3, 1, 0.3], opacity: [0.2, 0.6, 0.2] }}
+          transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+          className="w-[1px] h-16 origin-top"
+          style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.4), transparent)" }}
         />
       </motion.div>
     </section>
