@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 
 interface Project {
@@ -10,189 +10,210 @@ interface Project {
   href: string;
   category: string;
   featured?: boolean;
+  size?: "large" | "medium" | "small";
+  accent?: string;
+  stat?: { value: string; label: string };
 }
 
 const projects: Project[] = [
   {
-    title: "ADAS Level 2 Simulation",
+    title: "NayePankh Foundation Platform",
     description:
-      "Real-time autonomous driving simulation with RTOS-like scheduling, emergency preemption, and multi-sensor fusion. Built a comprehensive pipeline architected like microservices for low latency and high-concurrency processing.",
-    tags: ["Python", "SimPy", "RTOS", "Sensor Fusion", "RL Agent"],
-    href: "https://github.com/Likhit140305/Reinforcement_Learning_ADAS",
-    category: "Systems & AI",
+      "Production NGO platform with AI screening agents that auto-score volunteer applications, a persona-adaptive web engine that remaps layouts by visitor type, and 5 role-based portals (Admin, Volunteer, Visitor, Analytics, Donor). JWT + bcrypt auth, serverless Express backend, Vercel-deployed.",
+    tags: ["Next.js", "Node.js", "AI Agents", "JWT", "Serverless", "MongoDB"],
+    href: "https://github.com/Likhit140305/NayePankh_Website_Internship_Demo",
+    category: "Full-Stack",
     featured: true,
+    size: "large",
+    accent: "#6366f1",
+    stat: { value: "5", label: "Sub-portals" },
   },
   {
-    title: "Modular AI Assistant (JARVIS)",
+    title: "ADAS RL — 3-Stage Autonomous Driving",
     description:
-      "Modular AI Assistant with speech recognition, LLM orchestration, task automation, and hybrid voice interaction.",
-    tags: ["Python", "Speech AI", "LLMs", "Automation"],
-    href: "#",
-    category: "AI Systems",
+      "A three-stage RL framework escalating from a Q-table RTOS agent (0 deadline misses across 20K episodes) to a CNN/DQN visual agent, to a Hybrid DQN inside CARLA with a 7.8M-param dual-branch network fusing camera frames and kinematic state. Priority pre-emptive scheduler with 6 real-time tasks.",
+    tags: ["PyTorch", "CARLA", "DQN", "RTOS", "CNN", "RL"],
+    href: "https://github.com/Likhit140305/Reinforcement_Learning_ADAS",
+    category: "AI / Systems",
+    featured: true,
+    size: "large",
+    accent: "#8b5cf6",
+    stat: { value: "0", label: "Deadline misses" },
   },
   {
-    title: "Context-Aware Next Word Prediction Engine",
+    title: "Enterprise HR + Oracle ML Security",
     description:
-      "Developed an intelligent next-word prediction system leveraging NLP techniques and large language model concepts for contextual text generation.",
-    tags: ["Python", "NLP", "Transformers", "LLMs"],
-    href: "#",
-    category: "AI / NLP",
+      "Enterprise platform combining HR payroll management with an Oracle ML-powered network intrusion detection engine. Real-time threat classification (DoS, Recon, Probe) using OML algorithms, PL/SQL stored procedures, Docker containerization, and full pytest coverage.",
+    tags: ["Oracle ML", "PL/SQL", "Docker", "FastAPI", "pytest"],
+    href: "https://github.com/Likhit140305/enterprise-platform",
+    category: "Data / ML",
+    size: "medium",
+    accent: "#0ea5e9",
+    stat: { value: "3", label: "Threat classes" },
   },
   {
-    title: "DeFi Liquidity / Cross-Border Payment System",
+    title: "HFPN — Age & Gender Detection",
     description:
-      "Built a decentralized payment and liquidity management system using AMM logic and liquidity pools for cross-border transaction handling.",
-    tags: ["Solidity", "Web3", "Node.js", "AMM", "DeFi"],
-    href: "#",
+      "Hierarchical Feature Pyramid Network in PyTorch combining ResNet backbone, mixed pooling, and dual cross-task attention for simultaneous age regression and gender classification on UTKFace. Achieved 81.7% gender accuracy and 14.7 MAE for age.",
+    tags: ["PyTorch", "ResNet", "Attention", "Computer Vision"],
+    href: "https://github.com/Likhit140305/Hierarchial-Feature-Pyramid-for-Age-and-Gender-Detection",
+    category: "AI / ML",
+    size: "medium",
+    accent: "#f59e0b",
+    stat: { value: "81.7%", label: "Gender accuracy" },
+  },
+  {
+    title: "DefiBridge — Cross-Border Payment",
+    description:
+      "Blockchain-based payment platform routing multi-hop currency swaps through AMM liquidity pools (x·y=k formula). Solidity smart contracts (StablecoinToken, PaymentRouter, LiquidityPool) across 9 corridors. FastAPI backend + React frontend with live WebSocket confirmations.",
+    tags: ["Solidity", "Hardhat", "FastAPI", "React", "Web3"],
+    href: "https://github.com/Likhit140305/DefiBridge--LIquidity-cross-border-payment-Platform",
     category: "Blockchain",
+    size: "medium",
+    accent: "#10b981",
+    stat: { value: "9", label: "Corridors" },
   },
   {
     title: "AI Finance Tracker",
     description:
-      "AI-powered expense tracker with multi-modal NLP ingestion, SQL analytics, and Redis caching concepts. Implemented async job processing with BullMQ.",
-    tags: ["Next.js", "BullMQ", "NLP", "PostgreSQL", "Redis"],
+      "Expense tracking system with multi-modal NLP ingestion, async BullMQ job queue, PostgreSQL analytics views, and Redis caching. Parses receipts via text and image, produces spending category summaries.",
+    tags: ["Next.js", "BullMQ", "PostgreSQL", "Redis", "NLP"],
     href: "https://github.com/Likhit140305/finance-tracker",
     category: "Full-Stack",
+    size: "small",
+    accent: "#6366f1",
   },
   {
     title: "Abhinaya Theatre App",
     description:
-      "Full-stack theatre booking platform with event management APIs, seat selection, and admin flows. Focused on clean UI/UX and structured data handling.",
-    tags: ["React", "Node.js", "MongoDB", "REST API", "Express"],
+      "Full-stack theatre booking platform with FastAPI backend, MongoDB Motor async driver, JWT auth, interactive seat booking, and dark-mode React frontend with Framer Motion animations.",
+    tags: ["React", "FastAPI", "MongoDB", "JWT", "Framer Motion"],
     href: "https://github.com/Likhit140305/Abhinaya-Web-App",
     category: "Full-Stack",
+    size: "small",
+    accent: "#ec4899",
+  },
+  {
+    title: "JARVIS — Modular AI Assistant",
+    description:
+      "Hybrid voice AI assistant with OpenWakeWord trigger, faster-whisper transcription, Piper + Kokoro TTS pipeline, local LLM kernel orchestration, and sub-second response latency on CPU.",
+    tags: ["Python", "Whisper", "TTS", "LLM", "Voice AI"],
+    href: "#",
+    category: "AI Systems",
+    size: "small",
+    accent: "#8b5cf6",
   },
 ];
 
-function FeaturedCard({ project }: { project: Project }) {
-  const hasLink = project.href && project.href !== "#";
+const categories = ["All", "AI / Systems", "AI / ML", "Full-Stack", "Blockchain", "Data / ML", "AI Systems"];
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="group col-span-full rounded-[40px] overflow-hidden mb-12 md:mb-16"
-      style={{
-        background: "rgba(255,255,255,0.015)",
-        border: "1px solid rgba(255,255,255,0.03)",
-      }}
-    >
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
-        <div className="p-10 md:p-16 lg:p-20 flex flex-col justify-center col-span-1 lg:col-span-9">
-          
-          {/* Top Meta */}
-          <div className="flex items-center gap-4 mb-8">
-            <span className="text-[10px] px-3 py-1.5 rounded-full font-semibold tracking-[0.2em] uppercase bg-white/10 text-white border border-white/5">
-              Featured
-            </span>
-            <span className="w-8 h-px bg-white/20" />
-            <span className="text-xs font-medium text-white/70 tracking-widest uppercase">
-              {project.category}
-            </span>
-          </div>
-
-          {/* Content Group (using flex gap to guarantee spacing) */}
-          <div className="flex flex-col gap-8 mb-12">
-            <h3 className="font-clash text-4xl md:text-6xl font-semibold text-white leading-[1.1] tracking-tight">
-              {project.title}
-            </h3>
-            <p className="text-white/50 text-lg md:text-xl leading-[1.8] max-w-3xl font-light">
-              {project.description}
-            </p>
-          </div>
-
-          {/* Tags & Action Row */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pt-10 border-t border-white/5">
-            {/* Minimal dot-separated tags */}
-            <div className="flex flex-wrap items-center gap-3">
-              {project.tags.map((tag, i) => (
-                <div key={tag} className="flex items-center gap-3 text-[13px] font-semibold tracking-wide text-white/80 uppercase">
-                  <span>{tag}</span>
-                  {i < project.tags.length - 1 && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {hasLink && (
-              <a
-                href={project.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 text-sm font-semibold tracking-widest uppercase text-white hover:text-white/70 transition-colors duration-300"
-              >
-                View Live
-                <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
-            )}
-          </div>
-
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function ProjectGridCard({ project, index }: { project: Project; index: number }) {
+function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [hovered, setHovered] = useState(false);
   const hasLink = project.href && project.href !== "#";
 
+  const isLarge = project.size === "large";
+  const isMedium = project.size === "medium";
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.7, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="group relative rounded-[32px] p-10 md:p-12 flex flex-col h-full overflow-hidden"
+      className={`group relative rounded-[32px] flex flex-col overflow-hidden
+        ${isLarge ? "col-span-1 lg:col-span-2 p-10 md:p-14" : isMedium ? "p-10" : "p-8"}
+      `}
       style={{
-        background: hovered ? "rgba(255,255,255,0.025)" : "rgba(255,255,255,0.01)",
-        border: `1px solid ${hovered ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.03)"}`,
-        transition: "all 0.5s ease",
+        background: hovered
+          ? `linear-gradient(135deg, rgba(255,255,255,0.035) 0%, rgba(255,255,255,0.01) 100%)`
+          : "rgba(255,255,255,0.012)",
+        border: `1px solid ${hovered ? "rgba(255,255,255,0.09)" : "rgba(255,255,255,0.04)"}`,
+        transition: "all 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
+        boxShadow: hovered ? `0 0 60px -20px ${project.accent}25` : "none",
       }}
     >
-      {/* Category & Link */}
-      <div className="flex items-center justify-between mb-10">
-        <span className="text-[10px] text-white/70 uppercase tracking-[0.2em] font-medium">
-          {project.category}
-        </span>
-        {hasLink && (
-          <a
-            href={project.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-white hover:text-black hover:border-white transition-all duration-400"
-          >
-            <svg className="w-4 h-4 transition-transform duration-400 group-hover:-rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </a>
-        )}
+      {/* Accent glow on hover */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none rounded-[32px]"
+        animate={{ opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.4 }}
+        style={{
+          background: `radial-gradient(ellipse 60% 50% at 0% 0%, ${project.accent}12 0%, transparent 70%)`,
+        }}
+      />
+
+      {/* Top Row */}
+      <div className="flex items-start justify-between mb-8 relative">
+        <div className="flex items-center gap-3">
+          {/* Color dot */}
+          <span
+            className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+            style={{ background: project.accent, boxShadow: `0 0 10px ${project.accent}60` }}
+          />
+          <span className="text-[10px] text-white/50 uppercase tracking-[0.22em] font-medium">
+            {project.category}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3">
+          {project.stat && (
+            <div className="text-right mr-4">
+              <p className="font-clash text-xl font-semibold text-white/90">{project.stat.value}</p>
+              <p className="text-[10px] text-white/35 uppercase tracking-wider">{project.stat.label}</p>
+            </div>
+          )}
+          {hasLink && (
+            <a
+              href={project.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/35
+                hover:bg-white hover:text-black hover:border-white transition-all duration-300"
+              aria-label={`View ${project.title} on GitHub`}
+            >
+              <svg
+                className="w-3.5 h-3.5 transition-transform duration-300 group-hover:-rotate-45"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          )}
+        </div>
       </div>
 
-      {/* Content Group */}
-      <div className="flex flex-col gap-6 mb-12 flex-grow">
-        <h3 className="font-clash text-3xl font-semibold text-white/90 leading-tight group-hover:text-white transition-colors duration-400">
+      {/* Content */}
+      <div className="flex flex-col gap-5 flex-grow relative">
+        <h3
+          className={`font-clash font-semibold text-white/90 group-hover:text-white transition-colors duration-300 leading-tight tracking-tight
+            ${isLarge ? "text-3xl md:text-4xl" : isMedium ? "text-2xl" : "text-xl"}
+          `}
+        >
           {project.title}
         </h3>
-        <p className="text-[16px] text-white/50 font-light leading-[1.8]">
+        <p
+          className={`text-white/45 font-light leading-[1.75]
+            ${isLarge ? "text-base md:text-lg max-w-3xl" : "text-[14px]"}
+          `}
+        >
           {project.description}
         </p>
       </div>
 
-      {/* Clean Tags at bottom */}
-      <div className="flex flex-wrap items-center gap-2.5 pt-8 border-t border-white/5">
+      {/* Tags */}
+      <div className="flex flex-wrap items-center gap-2 pt-7 mt-7 border-t border-white/[0.04] relative">
         {project.tags.map((tag, i) => (
-          <div key={tag} className="flex items-center gap-2.5 text-[12px] font-semibold tracking-widest text-white/70 uppercase">
+          <div key={tag} className="flex items-center gap-2 text-[11px] font-semibold tracking-widest text-white/55 uppercase">
             <span>{tag}</span>
             {i < project.tags.length - 1 && (
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500/70" />
+              <span
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ background: project.accent, opacity: 0.6 }}
+              />
             )}
           </div>
         ))}
@@ -204,15 +225,18 @@ function ProjectGridCard({ project, index }: { project: Project; index: number }
 export default function Projects() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-120px" });
-  const featured = projects.find((p) => p.featured)!;
-  const rest = projects.filter((p) => !p.featured);
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filtered = activeCategory === "All"
+    ? projects
+    : projects.filter((p) => p.category === activeCategory);
 
   return (
     <section id="projects" className="py-[140px] md:py-[200px] px-6 md:px-16 lg:px-24 relative">
       <div className="max-w-7xl mx-auto" ref={ref}>
-        
+
         {/* Section Header */}
-        <div className="mb-24 flex flex-col items-center text-center">
+        <div className="mb-20 flex flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -220,8 +244,8 @@ export default function Projects() {
             className="flex items-center gap-4 mb-8"
           >
             <div className="w-12 h-px bg-white/20" />
-            <span className="text-[11px] tracking-[0.25em] text-white/70 uppercase font-medium">
-              Projects
+            <span className="text-[11px] tracking-[0.25em] text-white/60 uppercase font-medium">
+              Selected Works
             </span>
             <div className="w-12 h-px bg-white/20" />
           </motion.div>
@@ -232,28 +256,83 @@ export default function Projects() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-clash text-5xl md:text-7xl font-semibold text-white tracking-[-0.02em] mb-6"
           >
-            Selected Works.
+            Projects.
           </motion.h2>
 
           <motion.p
             initial={{ opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-white/40 text-lg md:text-xl max-w-2xl font-light leading-[1.6]"
+            className="text-white/40 text-lg md:text-xl max-w-2xl font-light leading-[1.6] mb-12"
           >
-            Engineering scalable platforms, intelligent systems, and seamless user experiences.
+            Real systems, real code — from RL agents to production platforms.
           </motion.p>
+
+          {/* Category Filter */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-wrap justify-center gap-2"
+          >
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className="text-[11px] px-4 py-2 rounded-full font-semibold uppercase tracking-[0.18em] transition-all duration-300"
+                style={{
+                  background: activeCategory === cat ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.04)",
+                  border: `1px solid ${activeCategory === cat ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.06)"}`,
+                  color: activeCategory === cat ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.45)",
+                }}
+              >
+                {cat}
+              </button>
+            ))}
+          </motion.div>
         </div>
 
-        {/* Featured Project */}
-        <FeaturedCard project={featured} />
+        {/* Bento Grid */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6"
+          >
+            {filtered.map((project, i) => (
+              <ProjectCard key={project.title} project={project} index={i} />
+            ))}
+          </motion.div>
+        </AnimatePresence>
 
-        {/* Project Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12">
-          {rest.map((project, i) => (
-            <ProjectGridCard key={project.title} project={project} index={i} />
-          ))}
-        </div>
+        {/* GitHub CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex justify-center mt-16"
+        >
+          <a
+            href="https://github.com/Likhit140305"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 text-[12px] font-semibold tracking-[0.2em] uppercase text-white/50
+              hover:text-white/90 transition-colors duration-300 group"
+          >
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+            </svg>
+            View all projects on GitHub
+            <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </motion.div>
+
       </div>
     </section>
   );

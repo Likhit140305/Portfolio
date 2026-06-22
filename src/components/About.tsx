@@ -21,8 +21,8 @@ const highlights = [
 ];
 
 const stats = [
-  { value: "4+", label: "Projects Shipped", sub: "across 3 domains" },
-  { value: "10+", label: "Technologies", sub: "languages & frameworks" },
+  { value: "8+", label: "Projects Shipped", sub: "across 4 domains" },
+  { value: "15+", label: "Technologies", sub: "languages & frameworks" },
   { value: "1", label: "Mission", sub: "build things that matter" },
 ];
 
@@ -85,10 +85,10 @@ export default function About() {
               className="space-y-8 text-white/50 text-lg leading-[1.8] max-w-[580px]"
             >
               <p>
-                I build intelligent systems that bridge the gap between complex algorithms and real-world utility. My focus lies at the intersection of <strong className="text-white/80 font-medium">Applied AI/ML</strong>, <strong className="text-white/80 font-medium">Systems Engineering</strong>, and <strong className="text-white/80 font-medium">Full-Stack Development</strong>.
+                I build intelligent systems that bridge the gap between complex algorithms and real-world utility. My focus spans <strong className="text-white/80 font-medium">Applied AI/ML</strong>, <strong className="text-white/80 font-medium">Systems Engineering</strong>, <strong className="text-white/80 font-medium">Full-Stack Development</strong>, and <strong className="text-white/80 font-medium">Data Platforms</strong>.
               </p>
               <p>
-                Whether I&apos;m developing autonomous simulations, orchestrating LLMs for modular assistants, or crafting performant web architectures, I care deeply about writing clean backend logic and delivering intuitive user experiences.
+                Whether I&apos;m training RL agents for autonomous driving, building ML-powered enterprise platforms with Oracle OML, deploying production NGO infrastructure, or crafting blockchain payment systems — I care about writing clean, correct, and fast code.
               </p>
             </motion.div>
 
