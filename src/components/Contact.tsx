@@ -108,8 +108,17 @@ export default function Contact() {
   const inView = useInView(ref, { once: true, margin: "-120px" });
 
   return (
-    <section id="contact" className="py-[140px] md:py-[240px] px-6 md:px-16 lg:px-24 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto" ref={ref}>
+    <section id="contact" className="py-[140px] md:py-[240px] px-6 md:px-16 lg:px-24 relative bg-[#030303] overflow-hidden">
+      {/* Dynamic Backgrounds */}
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] opacity-70" />
+      <motion.div
+        className="absolute bottom-0 left-0 w-[800px] h-[800px] pointer-events-none"
+        style={{
+          background: "radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.08), transparent 70%)",
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto relative z-10" ref={ref}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-center">
           
           {/* Left — text */}
@@ -121,8 +130,8 @@ export default function Contact() {
                 transition={{ duration: 0.7 }}
                 className="flex items-center gap-4 mb-10"
               >
-                <div className="w-12 h-px bg-white/20" />
-                <span className="text-[11px] tracking-[0.25em] text-white/70 uppercase font-medium">
+                <div className="w-12 h-px bg-gradient-to-r from-indigo-500/50 to-transparent" />
+                <span className="text-[11px] tracking-[0.25em] text-indigo-300/80 uppercase font-medium">
                   Contact
                 </span>
               </motion.div>
@@ -131,11 +140,11 @@ export default function Contact() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="font-clash text-5xl md:text-7xl lg:text-8xl font-semibold text-white mb-8 leading-[1.05] tracking-[-0.02em]"
+                className="font-clash text-5xl md:text-7xl lg:text-8xl font-semibold text-transparent bg-clip-text bg-gradient-to-br from-white to-white/70 mb-8 leading-[1.05] tracking-[-0.02em] drop-shadow-sm"
               >
                 Let&apos;s build
                 <br />
-                <span className="text-white/30">something.</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">something.</span>
               </motion.h2>
 
               <motion.p
@@ -186,7 +195,7 @@ export default function Contact() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.6 }}
-        className="max-w-7xl mx-auto mt-40 pt-12 flex flex-col md:flex-row items-center justify-between gap-6"
+        className="max-w-7xl mx-auto mt-40 pt-12 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10"
         style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
       >
         <span className="text-[13px] font-medium text-white/30 tracking-wide uppercase">

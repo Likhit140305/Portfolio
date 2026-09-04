@@ -232,8 +232,17 @@ export default function Projects() {
     : projects.filter((p) => p.category === activeCategory);
 
   return (
-    <section id="projects" className="py-[140px] md:py-[200px] px-6 md:px-16 lg:px-24 relative">
-      <div className="max-w-7xl mx-auto" ref={ref}>
+    <section id="projects" className="py-[140px] md:py-[200px] px-6 md:px-16 lg:px-24 relative bg-[#030303] overflow-hidden">
+      {/* Dynamic Backgrounds */}
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-70" />
+      <motion.div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] pointer-events-none"
+        style={{
+          background: "radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.1), transparent 70%)",
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto relative z-10" ref={ref}>
 
         {/* Section Header */}
         <div className="mb-20 flex flex-col items-center text-center">
@@ -243,18 +252,18 @@ export default function Projects() {
             transition={{ duration: 0.7 }}
             className="flex items-center gap-4 mb-8"
           >
-            <div className="w-12 h-px bg-white/20" />
-            <span className="text-[11px] tracking-[0.25em] text-white/60 uppercase font-medium">
+            <div className="w-12 h-px bg-gradient-to-r from-transparent to-indigo-500/50" />
+            <span className="text-[11px] tracking-[0.25em] text-indigo-300/80 uppercase font-medium">
               Selected Works
             </span>
-            <div className="w-12 h-px bg-white/20" />
+            <div className="w-12 h-px bg-gradient-to-l from-transparent to-indigo-500/50" />
           </motion.div>
 
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-clash text-5xl md:text-7xl font-semibold text-white tracking-[-0.02em] mb-6"
+            className="font-clash text-5xl md:text-7xl font-semibold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70 tracking-[-0.02em] mb-6 drop-shadow-sm"
           >
             Projects.
           </motion.h2>

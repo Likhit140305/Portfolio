@@ -82,8 +82,17 @@ export default function Education() {
   const inView = useInView(ref, { once: true, margin: "-120px" });
 
   return (
-    <section id="education" className="py-[140px] md:py-[200px] px-6 md:px-16 lg:px-24 relative">
-      <div className="max-w-5xl mx-auto" ref={ref}>
+    <section id="education" className="py-[140px] md:py-[200px] px-6 md:px-16 lg:px-24 relative bg-[#030303] overflow-hidden">
+      {/* Dynamic Backgrounds */}
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_20%_40%,#000_70%,transparent_100%)] opacity-70" />
+      <motion.div
+        className="absolute top-20 right-0 w-[600px] h-[600px] pointer-events-none"
+        style={{
+          background: "radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.08), transparent 70%)",
+        }}
+      />
+
+      <div className="max-w-5xl mx-auto relative z-10" ref={ref}>
         
         {/* Header */}
         <div className="mb-24 flex flex-col items-start">
@@ -93,8 +102,8 @@ export default function Education() {
             transition={{ duration: 0.7 }}
             className="flex items-center gap-4 mb-8"
           >
-            <div className="w-12 h-px bg-white/20" />
-            <span className="text-[11px] tracking-[0.25em] text-white/70 uppercase font-medium">
+            <div className="w-12 h-px bg-gradient-to-r from-indigo-500/50 to-transparent" />
+            <span className="text-[11px] tracking-[0.25em] text-indigo-300/80 uppercase font-medium">
               Education
             </span>
           </motion.div>
@@ -103,7 +112,7 @@ export default function Education() {
             initial={{ opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-clash text-5xl md:text-6xl font-semibold text-white tracking-[-0.02em]"
+            className="font-clash text-5xl md:text-6xl font-semibold text-transparent bg-clip-text bg-gradient-to-br from-white to-white/70 tracking-[-0.02em] drop-shadow-sm"
           >
             Academic Background.
           </motion.h2>
